@@ -1,0 +1,17 @@
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+from src.utils.database import Base
+
+class GroupPayment(Base):
+    __tablename__ = 'group_payments'
+    
+    id = Column(Integer, primary_key=True, index=True)
+    description = Column(String(255))
+    total_amount = Column(Integer)
+    creator_id = Column(Integer, ForeignKey('users.id'))
+    
+    creator = relationship('User')
+    participants = relationship('GroupPaymentParticipant', back_populates='group_payment')
+
+    def __repr__(self):
+        return f"<GroupPayment(description={self.description}, total_amount={self.total_amount})>"
